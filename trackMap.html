@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+		
+       /* Set the size of the div element that contains the map */
+      #map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 100%;  /* The width is the width of the web page */
+       }
+    </style>
+  </head>
+  <body>
+    <h3>My Google Maps Demo</h3>
+			<form>
+			Latitude: <input type="number" id="latitude" name="inLat">
+			Longitude: <input type="number" id="longitude" name="inLong">
+			Date: <input type="text" name="inDate">
+			Time: <input type="text" name="inTime">
+			Tolerance Lat: <input type="number" name="Lattolerance">
+			Tolerance Lng: <input type="number" name="Lngtolerance">
+			<input type="submit" value = "Add" onclick="addPoint(event)">
+		</form>
+    <!--The div element for the map -->
+    <div id="map"></div>
+	<div>
+		<text>Log</text>
+	</div>
+    <script>
+// Initialize and add the map
+var map;
+function initMap() {
+  // The location of Uluru
+  var uluru = {lat: -25.344, lng: 131.036};
+  // The map, centered at Uluru
+  map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 4, center: uluru});
+  // The marker, positioned at Uluru
+  var marker = new google.maps.Marker({position: uluru, map: map});
+}
+
+function addPoint(event) {
+	event.preventDefault();
+	
+	var lat = document.getElementById('latitude').value;
+	var lng = document.getElementById('longitude').value;
+	var myLatlng = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
+	
+
+	console.log(lat, lng);
+	var marker = new google.maps.Marker({
+	  position: myLatlng,
+	  map: map
+	});
+	marker.setMap(map);
+}
+    </script>
+    <!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+    -->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSStrGqKOZSrATqXvoXCQK_sb3ra_iwc0&callback=initMap">
+    </script>
+  </body>
+</html>
