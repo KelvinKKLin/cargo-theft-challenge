@@ -60,6 +60,12 @@ def GetNNearestPoints(n, latitude, longitude):
 	data_set.sort(key=keydict.get)
 	return data_set[0:n]
 	
+def GenerateRandomNumber():
+	return random.randInt(100000000000,999999999999)
+	
+def CompareNumbers(num1, num2):
+	return num1 == num2
+
 while True:
 	lat = float(input("Lat: "))
 	long = float(input("Long: "))
