@@ -46,10 +46,10 @@ def IsHijackInProgress(latitude, longitude):
 			
 			# Determine if current coordinates are within range.
 			if (latitude < latitude_high) and (latitude > latitude_low) and (longitude < longitude_high) and (longitude > longitude_low):
-				return False
+				return "SAFE"
 	
 	# Return if hijack is in progress
-	return True
+	return "DANGEROUS"
 	
 def GetNNearestPoints(n, latitude, longitude):
 	distance = []
@@ -65,13 +65,3 @@ def GenerateRandomNumber():
 	
 def CompareNumbers(num1, num2):
 	return num1 == num2
-
-while True:
-	lat = float(input("Lat: "))
-	long = float(input("Long: "))
-	res = GetNNearestPoints(3, lat, long)
-	
-	for i in range(3):
-		datapoint = res[i]
-		point_distance = math.sqrt((lat - datapoint.latitude)**2 + (long - datapoint.longitude)**2)
-		print(point_distance)
