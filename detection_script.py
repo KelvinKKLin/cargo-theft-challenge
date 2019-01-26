@@ -1,5 +1,6 @@
 from datetime import datetime
 import random
+import math
 
 # Wrapper class for the data.
 class DataPoint():
@@ -7,6 +8,7 @@ class DataPoint():
 		self.date = date
 		self.latitude = latitude
 		self.longitude = longitude
+		self.distance = float("inf")
 
 		
 # Variables.
@@ -48,3 +50,22 @@ def IsHijackInProgress(latitude, longitude):
 	
 	# Return if hijack is in progress
 	return True
+	
+def GetNNearestPoints(n, latitude, longitude):
+	distance = []
+	for datapoint in data_set:
+		point_distance = math.sqrt((latitude - datapoint.latitude)**2 + (longitude - datapoint.longitude)**2)
+		distance.append(point_distance)
+	keydict = dict(zip(data_set, distance))
+	data_set.sort(key=keydict.get)
+	return data_set[0:n]
+	
+while True:
+	lat = float(input("Lat: "))
+	long = float(input("Long: "))
+	res = GetNNearestPoints(3, lat, long)
+	
+	for i in range(3):
+		datapoint = res[i]
+		point_distance = math.sqrt((lat - datapoint.latitude)**2 + (long - datapoint.longitude)**2)
+		print(point_distance)
