@@ -42,10 +42,6 @@ def IsHijackInProgress(latitude, longitude):
 			longitude_high = datapoint.longitude + long_tol
 			longitude_low = datapoint.longitude - long_tol
 			
-			print(latitude, longitude)
-			print(latitude_high, latitude_low)
-			print(longitude_high, longitude_low)
-			
 			# Determine if current coordinates are within range.
 			if (latitude < latitude_high) and (latitude > latitude_low) and (longitude < longitude_high) and (longitude > longitude_low):
 				return False
