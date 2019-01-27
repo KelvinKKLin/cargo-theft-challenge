@@ -76,6 +76,7 @@ TORONTO_UNITS <- list(UNIT_2,UNIT_3, UNIT_4, UNIT_9, UNIT_10,UNIT_11)
 # -77, -81 Long
 #  45, 42
 
+par(bg = 'grey')
 unit <- UNIT_2
 unit <- unit[order(unit$tstamp),]
 unit_x <- unit$Longitude
@@ -150,7 +151,7 @@ for( BC_UNIT in BC_UNITS){
 
 
 legend("bottomright", inset=.02, title="Truck Unit",
-       c("2","3","4","9","10","11"), fill=c(1,2,3,4,5,6) + 1, horiz=TRUE, cex=0.8)
+       c("1","5","6","7","8"), fill=c(1,2,3,4,5) + 1, horiz=TRUE, cex=0.8)
 
 
 # =============================================================================================
