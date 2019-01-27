@@ -86,7 +86,11 @@
 			function(data) {
               var div = document.getElementById('log');
 			  var message = (data === "DANGEROUS") ? "<p><font color='red'>The vehicle is currently being hijacked.</font><br/></p>" : "<p>The vehicle is safe.<br/></p>";
-			  div.innerHTML += message
+			  div.innerHTML += message;
+			  
+			  if(data === "DANGEROUS") {
+				$.post('/sendphonealert');
+			  }
 			}
 		);
 		
