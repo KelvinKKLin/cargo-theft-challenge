@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import detection_script
 import twilio_send_message
+import json
 
 app = Flask(__name__)
 fobnumber = float('inf')
@@ -42,6 +43,11 @@ def SendPhoneAlert():
 	id = str(request.form["id"])
 	twilio_send_message.SendFobMessage(id)
 	return "DANGEROUS"
+	
+@app.route("/showdangeroustrucks", methods=['GET','POST'])
+def ShowDangerousTrucks():
+	data = detection_script.GetDangerousData()
+	return json.dumps(data)
 	
 if __name__ == "__main__":
 	app.run(debug=True)
