@@ -25,34 +25,54 @@ for(deviceID in deviceIDs){
 
 # =============================================================================================
 # Plots Delayed time Sequence. 
-unit <- UNIT_1
+
+k = 1
+upperbound <- unit$tstamp[1] + 60*60*24*(k+1)
+lowerbound <- unit$tstamp[1] +60*60*24*(k-1)
+unit <- subset(UNIT_2, subset = ( lowerbound < unit$tstamp | unit$tstamp < upperbound ) )
+#unit <- UNIT_9
 unit <<- unit[order(unit$tstamp),]
 unit_x <<- unit$Longitude
 unit_y <<- unit$Latitude
 time_diff <<- as.numeric(diff(unit$tstamp))
+t1 <- 0.08
+
+collectTimes <- c()
+collectPoints_x <- c()
+collectPoints_y <- c()
+  
 for(i in 1:length(unit_x)){
   
   lower = 1
   upper = i 
   
-  plot(unit_x[lower:upper],unit_y[lower:upper], type = "l")
+  plot(unit_x[lower:upper],unit_y[lower:upper], type = "l", main = as.character(unit$tstamp[i]))
   
   if( time_diff[i] > 800 ){
 
     points(unit_x[i],unit_y[i],col = "red", pch = 20,cex = 3.5)
-    Sys.sleep(0.25)
+    #collectPoints_x <- c(collectPoints_x,unit_x[i])
+    #collectPoints_y <- c(collectPoints_y,unit_y[i])
+    #collectTimes <- c(collectTimes,as.character(unit$tstamp[i]))
+    
+    Sys.sleep(t1)
   }
   
   else{
     points(unit_x[i],unit_y[i],col = "green", pch = 20,cex = 3.5)
-    Sys.sleep(0.25)
+    Sys.sleep(t1)
   }
 }
 
 
+collection <- data.frame(collectPoints_x, collectPoints_y, collectTimes)
+
+write.csv(collection,file = "collection.csv")
+
+
 # =============================================================================================
 # Plots fully Time sequence 
-unit <- UNIT_1
+unit <- UNIT_6
 unit <- unit[order(unit$tstamp),]
 unit_x <- unit$Longitude
 unit_y <- unit$Latitude
