@@ -1,0 +1,74 @@
+library(ggplot2)
+library(ggmap)
+library(maps)
+library(mapdata)
+
+
+# Import dataset 
+carthage <-  read.csv("ITM_20190121.csv")
+carthage <- carthage[,-11]
+carthage$Latitude <- as.numeric(as.character(carthage$Latitude))
+carthage$Longitude <-  as.numeric(as.character(carthage$Longitude))
+carthage <- carthage[carthage$MessageTyp == "GPS",]
+carthage <- ApplyTime(carthage)
+carthage <- carthage[!is.na(carthage),]
+
+
+deviceIDs <- rownames(table(carthage$DeviceSerial))
+
+# Creates data tables for Unit 1 - 11
+count = 0 
+for(deviceID in deviceIDs){
+  count = count + 1 
+  assign(
+    paste("UNIT",as.character(count),sep = "_"),
+    carthage[carthage$DeviceSerial == deviceID,]
+          )
+}
+
+
+# UNIT 
+ for(i in 1:11){
+   assign(
+     paste("UNIT",as.character(i),sep = "_"),
+     ApplyTime(get(paste("UNIT_",i,sep = ""))))
+ }
+ 
+
+ 
+unit <- UNIT_1
+diff(unit$tstamp)
+unit_x <- unit$Longitude
+unit_y <- unit$Latitude
+vel_x <- diff(unit_x)
+vel_y <- diff(unit_y)
+vel <- sqrt(vel_x^2 + vel_y^2)
+
+
+for(i in length(unit)){
+  
+}
+ 
+ 
+ 
+
+UNIT_1$Disp <- 
+  
+UNIT_2$Disp <- sqrt(UNIT_2$Longitude^2 + UNIT_2$Longitude^2)
+
+UNIT_1$Longitude 
+UNIT_1$Latitude
+
+FindCycle <- function(unit){
+  diffs <- diff(unit$UNIT_2$tstamp)
+  
+}
+
+scrollPlot <- function(unit,space){
+  count = 0
+  for(i in 1:1000){
+  plot(diff(unit))
+  }
+}
+
+
