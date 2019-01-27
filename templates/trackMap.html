@@ -22,6 +22,7 @@
 	   }
 	   #form{
 	   padding: 3px;
+	   margin-right:5%;
 	   float:right;
 	   font-family: "Arial";
 	   color: #887966;
@@ -30,6 +31,9 @@
 	   #title{
 	   height: 100px;
 	   width: 450px;
+	   left:5%;
+	   margin-left:4%;
+	   margin-top:4%;
 	   }
 	   #log{
 		color: #887966;
@@ -43,20 +47,42 @@
 		padding-right:10px;
 		padding-left:10px;
 	   }
+	   #generateNumber{
+		border-radius: 10px;
+		padding-right:10px;
+		padding-left:10px;
+		background-color: #2d2c2c;
+		font-family: "Arial";
+		color: #887966;		
+		padding-right:10px;
+		padding-left:10px;
+	   }
+	   #verifyFob{
+		border-radius: 10px;
+		padding-right:10px;
+		padding-left:10px;
+		background-color: #2d2c2c;
+		font-family: "Arial";
+		color: #887966;		
+		padding-right:10px;
+		padding-left:10px;
+	   }
     </style>
   </head>
   <body>
   <img id ="title" src= "/static/securesy.png"></img>
 			<form id = "form">
+			ID: <input type="text" id="id" name="id"><br>
 			Latitude: <input type="number" id="latitude" name="inLat">
 			Longitude: <input type="number" id="longitude" name="inLong"><br>
-			Date: <input type="text" name="inDate">
-			Time: <input type="text" name="inTime"><br>
-			Tolerance Lat: <input type="number" name="Lattolerance">
-			Tolerance Lng: <input type="number" name="Lngtolerance"><br>
-			<input id = "addbtn" type="submit" value = "Add" onclick="addPoint(event)">
+			<button id="generateNumber" type="button" onclick="generateRandomNumber(event)">Press Fob</button>
+			Fob Close to Truck<input type="checkbox" id="fobclose">
+			<button id="verifyFob" type="button" onclick="checkFobCode(event)">Verify Fob</button><br>
+			FOB Code:<input type="text" id="fobcode"><br>
 			New route<input type="checkbox" id = "checkbox1"></input>
+			<input id="addbtn" type="submit" value="Add" onclick="addPoint(event)">
 		</form>
+	
     <!--The div element for the map -->
     <div id="map"></div>
 	<div>
@@ -76,21 +102,53 @@
 		var marker = new google.maps.Marker({position: uluru, map: map});
 	}
 
+	function generateRandomNumber(event){
+		$.post('/generaterandomnumber',
+			function(data) {
+				document.getElementById("fobcode").value = data;
+			}
+		);
+	}
+	
+	function checkFobCode(event){
+		var fobCloseToTruck = document.getElementById("fobclose").checked
+		if(!fobCloseToTruck){
+			$.post('sendphonealert',
+				{
+					id: document.getElementById("id").value
+				},
+				function(data) {
+				  var div = document.getElementById('log');
+				  var message = "<p><font color='red'>This is an alert to indicate that truck ID " + document.getElementById("id").value + " is being accessed without proper fob.</font><br/></p>";
+				  div.innerHTML += message;
+				}
+			);
+		}
+		
+		$.post('/verifyfob',
+		{
+			id: document.getElementById("id").value,
+			fobnumber: document.getElementById("fobcode").value
+		},
+		function(data) {
+			var div = document.getElementById('log');
+			var message = (data === "DANGEROUS") ? "<p><font color='red'>This is an alert to indicate that truck ID " + document.getElementById("id").value + " is being accessed without proper fob.<br/></p>" : "<p>The vehicle is safe.<br/></p>";
+			div.innerHTML += message;
+		});
+	}
+	
 	function addPoint(event) {
 		event.preventDefault();
 		$.post('/ishijackinprogress',
 			{
 				latitude: document.getElementById("latitude").value,
-				longitude: document.getElementById("longitude").value
+				longitude: document.getElementById("longitude").value,
+				id: document.getElementById("id").value
 			},
 			function(data) {
               var div = document.getElementById('log');
-			  var message = (data === "DANGEROUS") ? "<p><font color='red'>The vehicle is currently being hijacked.</font><br/></p>" : "<p>The vehicle is safe.<br/></p>";
+			  var message = (data === "DANGEROUS") ? "<p><font color='red'>This is an alert to indicate that truck ID " + document.getElementById("id").value + " is potentially hijacked at latitude: " + document.getElementById("latitude").value + " and longitude: " + document.getElementById("longitude").value + ".</font><br/></p>" : "<p>The vehicle is safe.<br/></p>";
 			  div.innerHTML += message;
-			  
-			  if(data === "DANGEROUS") {
-				$.post('/sendphonealert');
-			  }
 			}
 		);
 		
@@ -98,8 +156,6 @@
 		var lng = document.getElementById('longitude').value;
 		var myLatlng = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
 		
-
-		console.log(lat, lng);
 		var marker = new google.maps.Marker({
 		  position: myLatlng,
 		  map: map
@@ -113,7 +169,7 @@
     * The callback parameter executes the initMap() function
     -->
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSStrGqKOZSrATqXvoXCQK_sb3ra_iwc0&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=">
     </script>
   </body>
 </html>
