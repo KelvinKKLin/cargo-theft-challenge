@@ -3,28 +3,64 @@
   <head>
     <style>
 		
-       /* Set the size of the div element that contains the map */
-      #map {
-        height: 400px;  /* The height is 400 pixels */
-        width: 100%;  /* The width is the width of the web page */
+        #map {
+        height: 500px;
+        width: 90%;  /* The width is the width of the web page */
+		left:5%;
+		border-radius: 10px;
        }
+	   html{
+	   padding: 10px;
+	   background-color: #323131;
+	   }
+	   input{
+	   padding: 3px;
+	   color: #887966;
+	   font-family: "Arial";
+	   background-color: #2d2c2c;
+	   border-radius: 10px;
+	   }
+	   #form{
+	   padding: 3px;
+	   float:right;
+	   font-family: "Arial";
+	   color: #887966;
+	  
+	   }
+	   #title{
+	   height: 100px;
+	   width: 450px;
+	   }
+	   #log{
+		color: #887966;
+		font-family: "Arial";
+	   }
+	   #checkbox1{
+		padding-left: 10px;
+	   }
+	   #addbtn{
+		border-radius: 10px;
+		padding-right:10px;
+		padding-left:10px;
+	   }
     </style>
   </head>
   <body>
-    <h3>My Google Maps Demo</h3>
-			<form>
+  <img id ="title" src= "/static/securesy.png"></img>
+			<form id = "form">
 			Latitude: <input type="number" id="latitude" name="inLat">
-			Longitude: <input type="number" id="longitude" name="inLong">
+			Longitude: <input type="number" id="longitude" name="inLong"><br>
 			Date: <input type="text" name="inDate">
-			Time: <input type="text" name="inTime">
+			Time: <input type="text" name="inTime"><br>
 			Tolerance Lat: <input type="number" name="Lattolerance">
-			Tolerance Lng: <input type="number" name="Lngtolerance">
-			<input type="submit" value = "Add" onclick="addPoint(event)">
+			Tolerance Lng: <input type="number" name="Lngtolerance"><br>
+			<input id = "addbtn" type="submit" value = "Add" onclick="addPoint(event)">
+			New route<input type="checkbox" id = "checkbox1"></input>
 		</form>
     <!--The div element for the map -->
     <div id="map"></div>
-	<div id="log">
-		<p><b>Log</b>:<br/></p>
+	<div>
+		<p id="log"><strong>Log</strong>:<br/></p>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
