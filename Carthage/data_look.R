@@ -27,14 +27,14 @@ for(deviceID in deviceIDs){
 }
 
 
-
+BeginTrack <- function(unit){
 unit <- UNIT_1
-unit <- unit[order(unit$tstamp),]
-unit_x <- unit$Longitude
-unit_y <- unit$Latitude
-plot(unit_x,unit_y, type = "l")
+unit <<- unit[order(unit$tstamp),]
+unit_x <<- unit$Longitude
+unit_y <<- unit$Latitude
+#plot(unit_x,unit_y, type = "l")
 
-time_diff <- as.numeric(diff(unit$tstamp))
+time_diff <<- as.numeric(diff(unit$tstamp))
 
 for(i in 1:length(unit_x)){
   
@@ -62,7 +62,7 @@ unit <- UNIT_2
 unit <- unit[order(unit$tstamp),]
 unit_x <- unit$Longitude
 unit_y <- unit$Latitude
-plot(unit_x,unit_y, type = "l")
+#plot(unit_x,unit_y, type = "l")
 
 time_diff <- as.numeric(diff(unit$tstamp))
 
@@ -71,7 +71,9 @@ for(i in 1:length(unit_x)){
   lower = 1
   upper = i 
   
-  plot(unit_x[lower:upper],unit_y[lower:upper], type = "l", main = as.character(time_diff[i]))
+  titleString <- paste(as.character(time_diff[i]),as.character(unit$tstamp[i]),sep = " ")
+  
+  plot(unit_x[lower:upper],unit_y[lower:upper], type = "l", main = titleString)
   
   if( time_diff[i] > 800 ){
     
@@ -84,4 +86,8 @@ for(i in 1:length(unit_x)){
     Sys.sleep(t1)
   }
 }
+
+
+
+
 
