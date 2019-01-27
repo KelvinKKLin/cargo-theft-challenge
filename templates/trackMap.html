@@ -22,6 +22,7 @@
 	   }
 	   #form{
 	   padding: 3px;
+	   margin-right:5%;
 	   float:right;
 	   font-family: "Arial";
 	   color: #887966;
@@ -30,6 +31,9 @@
 	   #title{
 	   height: 100px;
 	   width: 450px;
+	   left:5%;
+	   margin-left:4%;
+	   margin-top:4%;
 	   }
 	   #log{
 		color: #887966;
@@ -43,20 +47,36 @@
 		padding-right:10px;
 		padding-left:10px;
 	   }
+	   #generateNumber{
+		border-radius: 10px;
+		padding-right:10px;
+		padding-left:10px;
+		background-color: #2d2c2c;
+		font-family: "Arial";
+		color: #887966;		
+		padding-right:10px;
+		padding-left:10px;
+	   }
+	   #verifyFob{
+		border-radius: 10px;
+		padding-right:10px;
+		padding-left:10px;
+		background-color: #2d2c2c;
+		font-family: "Arial";
+		color: #887966;		
+		padding-right:10px;
+		padding-left:10px;
+	   }
     </style>
   </head>
   <body>
   <img id ="title" src= "/static/securesy.png"></img>
 			<form id = "form">
 			ID: <input type="text" id="id" name="id"><br>
-			Latitude: <input type="number" id="latitude" name="inLat"><br>
+			Latitude: <input type="number" id="latitude" name="inLat">
 			Longitude: <input type="number" id="longitude" name="inLong"><br>
-			Date: <input type="text" name="inDate">
-			Time: <input type="text" name="inTime"><br>
-			Tolerance Lat: <input type="number" name="Lattolerance">
-			Tolerance Lng: <input type="number" name="Lngtolerance"><br>
-			<button id="generateNumber" type="button" onclick="generateRandomNumber(event)">Press Fob</button><br>
-			Fob Close to Truck<input type="checkbox" id="fobclose"><br>
+			<button id="generateNumber" type="button" onclick="generateRandomNumber(event)">Press Fob</button>
+			Fob Close to Truck<input type="checkbox" id="fobclose">
 			<button id="verifyFob" type="button" onclick="checkFobCode(event)">Verify Fob</button><br>
 			FOB Code:<input type="text" id="fobcode"><br>
 			New route<input type="checkbox" id = "checkbox1"></input>
