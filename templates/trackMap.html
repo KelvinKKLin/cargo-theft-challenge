@@ -80,6 +80,7 @@
 			<button id="verifyFob" type="button" onclick="checkFobCode(event)">Verify Fob</button><br>
 			FOB Code:<input type="text" id="fobcode"><br>
 			New route<input type="checkbox" id = "checkbox1"></input>
+			<button id="vizualize" type="button" onclick="showDangerous(event)">Visualize</button><br>
 			<input id="addbtn" type="submit" value="Add" onclick="addPoint(event)">
 		</form>
 	
@@ -101,7 +102,7 @@
 		// The marker, positioned at Uluru
 		var marker = new google.maps.Marker({position: uluru, map: map});
 	}
-
+	
 	function generateRandomNumber(event){
 		$.post('/generaterandomnumber',
 			function(data) {
@@ -161,6 +162,34 @@
 		  map: map
 		});
 		marker.setMap(map);
+		map.panTo(myLatlng);
+		map.setZoom(12);
+	}
+	
+	function showDangerous(event){
+		$.post('/showdangeroustrucks', 
+			function(data){
+				data = JSON.parse(data);
+				for(var i = 0; i < data.length; i++){
+					var lat = data[i][1];
+					var lng = data[i][0];
+					try{
+						var myLatlng = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
+						var marker = new google.maps.Marker({
+						  position: myLatlng,
+						  map: map
+						});
+						marker.setMap(map);
+						map.panTo(myLatlng);
+						map.setZoom(12);
+					} catch(err){
+						console.log(err)
+						console.log(lat)
+						console.log(lng)
+					}
+				}
+			}
+		);
 	}
     </script>
     <!--Load the API from the specified URL
@@ -169,7 +198,7 @@
     * The callback parameter executes the initMap() function
     -->
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=">
+    src=""
     </script>
   </body>
 </html>

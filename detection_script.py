@@ -1,6 +1,7 @@
 from datetime import datetime
 import random
 import math
+import json
 
 # Wrapper class for the data.
 class DataPoint():
@@ -25,6 +26,18 @@ for line in processed_data.readlines()[1:]:
 		data = DataPoint(datetime.strptime(datetime_string, "%Y-%m-%d %I:%M:%S %p"), float(line[2]), float(line[3]))
 		data_set.append(data)
 processed_data.close()
+
+# Load the dangerous data.
+dangerous_data_set = []
+dangerous_data = open("collection.csv", "r")
+for line in dangerous_data.readlines()[1:]:
+	line = line.split(",")
+	if "NULL" not in line:
+		dangerous_data_set.append([line[0], line[1], line[2]])
+dangerous_data.close()
+
+def GetDangerousData():
+	return dangerous_data_set
 
 def IsHijackInProgress(latitude, longitude):
 	# Get the current date and day of the week.
