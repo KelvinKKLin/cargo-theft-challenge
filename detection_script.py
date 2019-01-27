@@ -13,8 +13,8 @@ class DataPoint():
 		
 # Variables.
 data_set = []
-latitude_tolerance = [10, 10, 10, 10, 10, 10, 10]
-longitude_tolerance = [10, 10, 10, 10, 10, 10, 10]
+latitude_tolerance = [0,0,0,0,0,0,0]
+longitude_tolerance = [0,0,0,0,0,0,0]
 
 # Load the data.	
 processed_data = open("processed_data.csv", "r")
@@ -61,7 +61,7 @@ def GetNNearestPoints(n, latitude, longitude):
 	return data_set[0:n]
 	
 def GenerateRandomNumber():
-	return random.randInt(100000000000,999999999999)
+	return str(random.randint(100000000000,999999999999))
 	
 def CompareNumbers(num1, num2):
 	return num1 == num2

@@ -3,6 +3,7 @@ import detection_script
 import twilio_send_message
 
 app = Flask(__name__)
+fobnumber = float('inf')
 
 @app.route("/")
 def home():
@@ -10,13 +11,39 @@ def home():
 
 @app.route("/ishijackinprogress", methods=['GET', 'POST'])
 def IsHijackInProgress():
+	id = str(request.form["id"])
 	latitude = float(request.form["latitude"])
 	longitude = float(request.form["longitude"])
-	return detection_script.IsHijackInProgress(latitude, longitude)
+	if detection_script.IsHijackInProgress(latitude, longitude) == "DANGEROUS":
+		twilio_send_message.SendDriveMessage(id, latitude, longitude)
+		return "DANGEROUS"
+	return "SAFE"
 
+
+@app.route("/generaterandomnumber", methods=['GET','POST'])
+def GenerateRandomNumber():
+	global fobnumber
+	fobnumber = detection_script.GenerateRandomNumber()
+	return fobnumber
+
+@app.route("/verifyfob", methods=['GET','POST'])
+def VerifyFob():
+	global fobnumber
+	id = str(request.form["id"])
+	submitnumber = int(request.form["fobnumber"])
+	fobnumber = int(fobnumber)
+	if not detection_script.CompareNumbers(submitnumber, fobnumber):
+		twilio_send_message.SendFobMessage(id)
+		return "DANGEROUS"
+	return "SUCCESS"
+	
 @app.route("/sendphonealert", methods=['GET','POST'])
 def SendPhoneAlert():
-	twilio_send_message.SendAlertMessage()
-
+	id = str(request.form["id"])
+	twilio_send_message.SendFobMessage(id)
+	return "DANGEROUS"
+	
 if __name__ == "__main__":
 	app.run(debug=True)
+	
+	
